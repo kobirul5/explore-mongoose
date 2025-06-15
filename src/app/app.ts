@@ -71,6 +71,35 @@ app.get('/note/get-note/:noteId', async (req: Request, res: Response) => {
   })
 })
 
+// find  Note by id fetch
+app.patch('/note/update-note/:noteId', async (req: Request, res: Response) => {
+  const body = req.body;
+  const id = req.params.noteId
+
+  const note = await Note.findByIdAndUpdate(id, body, {new: true}) //best way
+  // const note = await Note.findOneAndUpdate({_id: id}, body, {new: true})
+  // const note = await Note.updateOne({_id: id}, body, {new: true})
+ 
+  res.status(201).json({
+    success: true,
+    message: "Note Created successfully",
+    note: note
+  })
+})
+app.delete('/note/delete-note/:noteId', async (req: Request, res: Response) => {
+  const id = req.params.noteId
+
+  const note = await Note.findByIdAndDelete(id) //best way
+  // const note = await Note.findOneAndDelete({_id: id})
+  // const note = await Note.deleteOne({_id: id})
+ 
+  res.status(201).json({
+    success: true,
+    message: "Note Created successfully",
+    note: note
+  })
+})
+
 app.get('/', (req: Request, res: Response) => {
   res.send('Welcome To ToDos Apps')
 })
